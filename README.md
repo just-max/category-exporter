@@ -3,7 +3,7 @@ Glebe's Reach For The Top team's secret sauce. The reason our trivia nights are 
 
 Created by Max Lang for Glebe Collegiate Institute's Trivia Nights.
 
-Allows exporting questions and answers from a spreadsheet, saving possibly hours.
+Allows exporting questions and answers from a spreadsheet, possibly saving hours.
 
 # What it Does
 Adds to the add-on menu in Google Sheets an option to export questions to another sheet, that can be printed to pdf (for answer checking). Another option allows a slideshow to be selected using the Google Picker Dialog, to which the questions can then be exported (for presenting).
