@@ -18,4 +18,4 @@ Adds to the add-on menu in Google Sheets an option to export questions to anothe
 # License
 This project is available under the GPLv3. See 'LICENSE' for full license text.
 
-Includes code adapted from https://developers.google.com/apps-script/guides/dialogs, available under https://www.apache.org/licenses/LICENSE-2.0. Files containing this code are include a comment indicating the code.
+Includes code adapted from https://developers.google.com/apps-script/guides/dialogs, available under https://www.apache.org/licenses/LICENSE-2.0. Files containing this code include a comment indicating the applicable section and any modifications.
