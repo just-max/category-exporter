@@ -12,6 +12,8 @@ function onOpen(e) {
     .addItem("Create Question/Answer Slideshow", "pickPresentation")
     //to export the slideshow using a url
     .addItem("Create Slideshow (from URL)", "createPresentationURL")
+    //to display version
+    .addItem("Version Information", "showInfo")
   //add the menu
   .addToUi();
 }
@@ -107,4 +109,8 @@ function writePresentationCallback(id) {
   target = SlidesApp.openById(id);
   writePresentation(target, getAllCategories(SpreadsheetApp.getActiveSheet()));
   SpreadsheetApp.getUi().alert("[Success] Slides created!");
+}
+
+function showInfo() {
+  SpreadsheetApp.getUi().alert("Version 11, 7 February 2019");
 }
