@@ -7,13 +7,13 @@ function onOpen(e) {
   
   addOnMenu
     //add the menu item to export the print sheet
-    .addItem("Create Question/Answer Sheet", "createPrintSheet")
+    .addItem("Create question/answer sheet", "createPrintSheet")
     //and to export the slideshow
-    .addItem("Create Question/Answer Slideshow", "pickPresentation")
+    .addItem("Create question/answer slideshow", "pickPresentation")
     //to export the slideshow using a url
-    .addItem("Create Slideshow (from URL)", "createPresentationURL")
+    .addItem("Create slideshow (from URL)", "createPresentationURL")
     //to display version
-    .addItem("Version Information", "showInfo")
+    .addItem("Version information", "showInfo")
   //add the menu
   .addToUi();
 }
@@ -34,7 +34,7 @@ function showError(title, prompt) {
 
 //creates the print sheet, with questions and answers, using the currently active sheet
 function createPrintSheet() {
-  writePrintSheet(getAllCategories(SpreadsheetApp.getActiveSheet()));
+  SpreadsheetApp.setActiveSheet(writePrintSheet(getAllCategories(SpreadsheetApp.getActiveSheet())));
 }
 
 //picks the target presentation using google picker, then returns the id to writePresentationCallback
@@ -49,21 +49,26 @@ function createPresentationURL() {
   //query the URL of the presentation
   response = ui.prompt("Please enter presentation URL");
   
+  var respText = response.getResponseText();
+  
   if(response.getSelectedButton() == ui.Button.OK) {
     
     try {
       //try to open the specified url
-      target = SlidesApp.openByUrl(response.getResponseText());
+      target = SlidesApp.openByUrl(respText);
     } catch (err) {
       //report an invalid URL
       ui.alert("Invalid URL!");
       return;
     }
     
+    /*
     try {
       //try and get the list of editors, (((this throws an exception if the current user can't edit)))
       //this SHOULD fail if the current user can't edit, but it doesn't(?)
       editors = target.getEditors();
+      
+      Logger.log(editors);
       
       //get the effective current user (the user whose permissions control this script)
       effectiveUser = Session.getEffectiveUser();
@@ -77,7 +82,8 @@ function createPresentationURL() {
         throw "No edit access!";
       }
       
-      /*actUser = Session.getActiveUser();
+      /block comment start
+      actUser = Session.getActiveUser();
       
       Logger.log("Effective: " + effUser);
       Logger.log("Active: " + actUser);
@@ -92,11 +98,13 @@ function createPresentationURL() {
       //Logger.log(editors[0] == Session.getEffectiveUser());
       
       //so instead check if the current user is an editor
-      if (editors.indexOf(Session.getEffectiveUser()) < 0) { throw "Not an editor!"; }*/
+      if (editors.indexOf(Session.getEffectiveUser()) < 0) { throw "Not an editor!"; }
+      /block comment end
     } catch (err) {
       ui.alert("[Error] Cannot edit slideshow at that URL!");
+      Logger.log(err);
       return;
-    }
+    }*/
     
     //once all checks have passed, write the presentation
     writePresentation(target, getAllCategories(SpreadsheetApp.getActiveSheet()));
@@ -112,5 +120,5 @@ function writePresentationCallback(id) {
 }
 
 function showInfo() {
-  SpreadsheetApp.getUi().alert("Version 11, 7 February 2019");
+  SpreadsheetApp.getUi().alert("Version 12, 21 February 2019");
 }

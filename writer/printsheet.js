@@ -6,15 +6,11 @@ var BOLD = {"HEADER":"normal", "CATEGORY_NAME":"bold", "QUESTION":"normal", "ANS
 
 var HEADER_HEIGHT = 2;
 
-function foo() {
-  writePrintSheet(getAllCategories(SpreadsheetApp.getActiveSpreadsheet().getSheets()[0]));
-}
-
 function writePrintSheet(categories) {
   //many things might break if no categories are presented
   if(!categories || categories.length == 0) {
     showError("No Categories!", "You need to provide at least one category. Do you have the wrong sheet selected? For help go to: https://urlred.page.link/help");
-    return;
+    return SpreadsheetApp.getActiveSheet();
   }
   
   //get an existing or create a new print sheet
@@ -85,6 +81,8 @@ function writePrintSheet(categories) {
     //merge the category header
     catHeaderRange.merge();
   }
+  
+  return printSheet;
 }
 
 //creates an empty print sheet, with default formatting

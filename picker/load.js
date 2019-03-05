@@ -6,7 +6,8 @@
  * JavaScript code for the Google Picker API.
  */
 function showPicker() {
-  var html = HtmlService.createHtmlOutputFromFile('picker/gui.html')
+  var html = HtmlService.createTemplateFromFile('picker/gui.html')
+      .evaluate()
       .setWidth(600)
       .setHeight(442)
       .setSandboxMode(HtmlService.SandboxMode.IFRAME);
