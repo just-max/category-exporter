@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <base target="_top">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <?!= include("ui/exportstyle.html") ?>
+  </head>
+  
+  <body>
+  <main>
+    
+    <form id="export-form">
+      <div class="row">
+      
+        <div id="export-source-box" class="col s12 m6">
+          <div class="section">
+            <div class="input-field">
+              <?!= include("ui/sheetselect.html") ?>
+              <label>Export from</label>
+            </div>
+            <div id="source-status" class="status-box">Hello, world!</div>
+          </div>
+        </div>
+        
+        <div id="export-target-box" class="col s12 m6">
+          <div class="section">
+            <div class="input-field">
+              <select name="target" id="export-target">
+                <option class="blue-text" value="sheet" selected>Spreadsheet</option>
+                <option value="slideshow">Slideshow</option>
+                <option value="database">Database</option>
+              </select>
+              <label>Export to</label>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+      <div class="divider"></div>
+      
+      <div class="section">
+    
+        <div class="container">
+          <div class="row">
+          
+            <div class="col s12 m4"><h6><b><p>Trivia Night Date</p></b></h6></div>
+            <div class="col s12 m8">
+              <p><label>
+                <input name="target-date" type="radio" checked />
+                <span>
+                  This <?= weekdays[nextDate.getDay()] + ", " + months[nextDate.getMonth()] + " " +
+                  nextDate.getDate() + ", " + nextDate.getYear(); ?>
+                </span>
+              </label></p>
+              <p><label>
+                <input name="target-date" type="radio" />
+                <span>Other date: <input type="text" class="datepicker"></span>
+              </label></p>
+            </div>
+            
+            <div class="divider">
+            
+            
+            
+          </div>
+        </div>
+      </div>
+      
+    </form>
+    
+  </main>
+  <footer class="red page-footer">
+    <div class="section">
+      <div class="container">bottom text</div>
+    </div>
+  </footer>
+  </body>
+  <?!= include("ui/exportscript.html") ?>
+</html>
+
+

@@ -1,0 +1,12 @@
+<select name="source" id="export-source">
+  <? var sheets = SpreadsheetApp.getActive().getSheets().map(function(el) { return {"id": el.getSheetId(), "name": el.getName()}; });
+  var activeSheet = SpreadsheetApp.getActiveSheet();
+  activeSheet = {"id": activeSheet.getSheetId(), "name": activeSheet.getName()};?>
+
+  <option selected value="<?=activeSheet["id"]?>">(Active sheet) <?= activeSheet["name"]; ?></option>
+
+  <? for(var s = 0; s < sheets.length; s++) {
+    if(sheets[s]["id"] == activeSheet["id"]) { continue; } ?>
+    <option value="<?=sheets[s]["id"]?>"><?=sheets[s]["name"];?></option>
+  <? } ?>
+</select>

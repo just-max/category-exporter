@@ -1,0 +1,81 @@
+<script>
+    var categoryCount;
+    
+    //makes the passed jQuery elements float and coloured to display an error
+    //level of 1 is warning, 2 is error, 0 is no error (clear)
+    /*function highlightError(jElems, level) {
+      jElems.removeClass("box-warn box-error z-depth-1");
+      if(level == 1) { jElems.addClass("box-warn z-depth-1"); }
+      else if(level == 2) { jElems.addClass("box-error z-depth-1"); }
+    };*/
+    
+    //highlights an error on the given element(s), also updating an error-status div within
+    function highlightError(on, level) {
+      
+      //remove any existing error
+      on.removeClass("box-warn box-error z-depth-1");
+      var statusBoxes = on.find("sucess-label warn-label error-label");
+      statusBoxes.hide();
+      
+      //highlight based on error level
+      if(level == 0) {
+        statusBoxes.filter("success-label").show();
+      }
+      if(level == 1) {
+        on.addClass("box-warn z-depth-1");
+        statusBoxes.filter("warn-label").show();
+      }
+      else if(level == 2) {
+        on.addClass("box-error z-depth-1");
+        statusBoxes.filter("error-label").show();
+      }
+    }
+    
+    function validateCategorySource(select) {
+      
+    }
+    
+    //updates the sheet select box based on the number of categories found:
+    // < 0 is error, == 0 is warning, > 0 is success
+    function processCategoryCount(output) {
+      categoryCount = output;
+      if(output > 0) {
+      //TODO use class="left" or right to align the icons
+        $("#source-status").html('<div>Found ' + output + ' categories!</div>' +
+        '<i class="material-icons icon-success">check_circle</i>');
+        highlightError($("#export-source-box"), 0);
+      }
+      else if(output == 0) {
+        $("#source-status").html("<div>Sheet contains no categories!</div>" +
+        '<i class="material-icons icon-warn">error</i>');
+        highlightError($("#export-source-box"), 1);
+      }
+      else if(output < 0) {
+        $("#source-status").html("<div>Error loading categories!</div>" +
+        '<i class="material-icons icon-error">error</i>');
+        highlightError($("#export-source-box"), 2);
+      }
+    }
+    
+    $(function() {
+      
+      //initialize the selectors
+      $("select").formSelect();
+      
+      //initialize the date picker
+      $(".datepicker").datepicker();
+      
+      $("#export-source").change(function(event) {
+        $("#source-status").html('<div class="progress"><div class="indeterminate"></div></div>')
+        highlightError($("#export-source-box"), 0);
+        
+        google.script.run.withSuccessHandler(processCategoryCount)
+        .withFailureHandler(function() { processCategoryCount(-1); })
+        .getCategoryCount($(this).children("option:selected").val());
+      });
+      
+      //manually trigger a load of categories
+      $("#export-source").change();
+      
+    });
+</script>

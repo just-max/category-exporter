@@ -32,8 +32,6 @@ function getAllCategories(sheet) {
   //array for all the found categories
   var categories = [];
   
-  //Logger.log(sheetData);
-  
   //read the cells one by one to find starts
   for(var row = 0; row < sheetData.length; row++) {
     for(var col = 0; col < sheetData[0].length; col++) {
@@ -47,7 +45,6 @@ function getAllCategories(sheet) {
         //we are at the start of a category:
         
         //start by assuming only the first cell ends the category
-        //var currentEndCell = currentCell;
         var assumedEndRow = row;
         
         //search for the end of the category, starting right below the start
@@ -55,7 +52,6 @@ function getAllCategories(sheet) {
         for(var nextEndRow = row + 1; nextEndRow < sheetData.length; nextEndRow++) {
           
           //the next cell to check
-          //var nextCell = sheetDataRange.getCell(endRow + 1, col + 1);
           var nextCell = sheetData[nextEndRow][col];
           
           //if the cell here starts a new category or ends a category, stop searching
@@ -65,32 +61,26 @@ function getAllCategories(sheet) {
           assumedEndRow = nextEndRow;
         }
         
-        //Logger.log("start: " + row + ", end " + assumedEndRow);
-        
-        //NB: the assumed end row is now the actual end row
+        //note: the assumed end row is now the actual end row
         
         //check that the category has a length of at least two lines
         if(assumedEndRow > row) {
           
           //to store q/a pair
-          catQuestions = []
+          catQuestions = [];
           
           //for each row in the category's range, not including the category name
           for(var currRow = row + 1; currRow <= assumedEndRow; currRow++) {
             
             //push the question here to the array
-            catQuestions.push(
-              {
+            catQuestions.push({
                 //the question is at the current position, the answer one over (to the right)
                 question: sheetData[currRow][col].toString(),
                 //the answer
                 answer: sheetData[currRow][col + 1].toString()
-              }
-            )
-            
+              });
           }
           
-          //Logger.log(sheetData[row][col].toString());
           //extract the category name (anything after the first colon in the top left cell)
           catName = CAT_NAME_REG.exec(sheetData[row][col].toString())[1];
           
@@ -104,8 +94,6 @@ function getAllCategories(sheet) {
       
     }
   }
-  
-  //Logger.log(categories);
   
   return categories;
 }

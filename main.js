@@ -12,6 +12,8 @@ function onOpen(e) {
     .addItem("Create question/answer slideshow", "pickPresentation")
     //to export the slideshow using a url
     .addItem("Create slideshow (from URL)", "createPresentationURL")
+    //to display the export gui
+    .addItem("Export (beta)", "exportWithGui")
     //to display version
     .addItem("Version information", "showInfo")
   //add the menu
@@ -58,57 +60,17 @@ function createPresentationURL() {
       target = SlidesApp.openByUrl(respText);
     } catch (err) {
       //report an invalid URL
-      ui.alert("Invalid URL!");
+      ui.alert("[Error] An error occurred opening the slideshow at that URL!");
       return;
     }
     
-    /*
     try {
-      //try and get the list of editors, (((this throws an exception if the current user can't edit)))
-      //this SHOULD fail if the current user can't edit, but it doesn't(?)
-      editors = target.getEditors();
-      
-      Logger.log(editors);
-      
-      //get the effective current user (the user whose permissions control this script)
-      effectiveUser = Session.getEffectiveUser();
-      
-      editAccess = false;
-      for(var editorI in editors) {
-        if(editors[editorI].getEmail() == effectiveUser.getEmail()) { editAccess = true; }
-      }
-      
-      if(!editAccess) {
-        throw "No edit access!";
-      }
-      
-      /block comment start
-      actUser = Session.getActiveUser();
-      
-      Logger.log("Effective: " + effUser);
-      Logger.log("Active: " + actUser);
-      for(var editorI in editors) {
-        editor = editors[editorI];
-        Logger.log("For editor " + editor);
-        Logger.log(Object.keys(editor));
-        Logger.log("Equal eff: " + (editor == effUser));
-        Logger.log("Equal act: " + (editor == actUser));
-      }
-      //Logger.log(editors);
-      //Logger.log(editors[0] == Session.getEffectiveUser());
-      
-      //so instead check if the current user is an editor
-      if (editors.indexOf(Session.getEffectiveUser()) < 0) { throw "Not an editor!"; }
-      /block comment end
+      //write the presentation
+      writePresentation(target, getAllCategories(SpreadsheetApp.getActiveSheet()));
+      ui.alert("[Success] Slides created!");
     } catch (err) {
-      ui.alert("[Error] Cannot edit slideshow at that URL!");
-      Logger.log(err);
-      return;
-    }*/
-    
-    //once all checks have passed, write the presentation
-    writePresentation(target, getAllCategories(SpreadsheetApp.getActiveSheet()));
-    ui.alert("[Success] Slides created!");
+      ui.alert("[Error] An error occurred writing the slideshow. Do you have edit access?");
+    }
   }
 }
 
@@ -119,6 +81,10 @@ function writePresentationCallback(id) {
   SpreadsheetApp.getUi().alert("[Success] Slides created!");
 }
 
+function exportWithGui() {
+  showExportDialog();
+}
+
 function showInfo() {
-  SpreadsheetApp.getUi().alert("Version 12, 21 February 2019");
+  SpreadsheetApp.getUi().alert("Version 13, 5 March 2019");
 }
